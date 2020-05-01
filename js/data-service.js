@@ -1,13 +1,25 @@
 class DataService{
+	
 	constructor(){
+		this.lsKey = "notesApp";
 		this.masterData={
-			1 : {
-				text  : "",
-				children :{
-						
-				}			
-			}
+			// 1 : {
+			// 	text  : "",
+			// 	children :{
+
+			// 	}			
+			// }
 		};
+	}
+
+	setMasterData(data){
+		if(data){
+			this.masterData = data;
+		}
+	}
+
+	getMasterData(){
+		return JSON.parse(JSON.stringify(this.masterData));
 	}
 
 	saveInLocalStorage(key,data){
@@ -19,8 +31,18 @@ class DataService{
 		
 	}
 
-	fetchFromLocalStorage(){
-
+	fetchFromLocalStorage(key){
+		let data = null;
+		try{
+			let lsData = localStorage.getItem(key);
+			if(lsData){
+				data = JSON.parse(lsData);
+			}
+			
+		}catch(e){
+			console.log("Parsing failed");
+		}
+		return data;
 	}
 
 	saveNote(){
