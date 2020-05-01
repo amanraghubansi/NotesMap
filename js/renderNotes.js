@@ -27,7 +27,9 @@ class RenderNotes {
         let el = document.createElement("div");
         let genId = id || dataService.fetchUniqueId();
         el.id = genId;
-        el.innerHTML = html;
+        let elp = document.createElement("span");
+        elp.innerHTML = html;
+        el.appendChild(elp);
         el.classList=className;
         let btn1 = this.createBtn("Add Note" , "add" , this.createChildNoteHander.bind(this));
         let btn2 = this.createBtn("Delete" , "delete" , this.btnDelClicked.bind(this));
@@ -40,7 +42,7 @@ class RenderNotes {
     }
 
     renderOneNode(id,txt,parent){
-        let el =this.createNoteSkeleton(id,"note",txt);
+        let el =this.createNoteSkeleton(id,"note subNote",txt);
         parent.appendChild(el);
         console.log(parent);
     }
@@ -49,15 +51,21 @@ class RenderNotes {
         var self = this;
         Object.keys(data).forEach(function(idVal){
             if(idVal && typeof data[idVal] && data[idVal].children){
-                let el = self.createNoteSkeleton(idVal,"note",data[idVal].text);
+                let el = self.createNoteSkeleton(idVal,"note subNote",data[idVal].text);
                 self.render(data[idVal].children,el);
                 if(parentNode){
                     parentNode.appendChild(el);
                 }else{
+                    el.classList = "note";
                     self.bodyEl.appendChild(el);
                 }
             }else{
-                self.renderOneNode(idVal,data[idVal].text,parentNode);
+                if(parentNode){
+                    self.renderOneNode(idVal,data[idVal].text,parentNode);
+                }else{
+                    let el = self.createNoteSkeleton(idVal,"note",data[idVal].text);
+                    self.bodyEl.appendChild(el);
+                }
             }
         })
         console.log("forEach round completed" , parentNode , data);
@@ -70,7 +78,7 @@ class RenderNotes {
         let val =this.inputEl.value;
         let el = this.createNoteSkeleton("","note",val);
         this.parentEl.appendChild(el);
-        dataService.addNoteToMasterData(el.id,{txt : el.textContent});
+        dataService.addNoteToMasterData(el.id,{text : el.children[0].innerText});
         this.inputEl.value = "";
     }
 
@@ -132,7 +140,7 @@ class RenderNotes {
 
             let elt = ref.createNoteSkeleton("","note subNote",value);
             parent.appendChild(elt);
-            dataService.findNodeAndAddDataToMasterData(parentId,elt.id,elt.textContent);
+            dataService.findNodeAndAddDataToMasterData(parentId,elt.id,elt.children[0].innerText);
             
         });
         parent.appendChild(el);
