@@ -1,4 +1,5 @@
 import dataService from "./data-service.js";
+
 class LoadApp{
 
     load(){
