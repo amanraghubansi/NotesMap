@@ -1,4 +1,4 @@
-import dataService from "./data-service";
+// import dataService from "./data-service";
 
 
 class LoadApp{
@@ -6,10 +6,11 @@ class LoadApp{
     }
 
     load(){
-        let data=  dataService.fetchFromLocalStorage(dataService.lsKey);
-        if(data){
-            dataService.setMasterData(data);
-        }
+        // let data=  dataService.fetchFromLocalStorage(dataService.lsKey);
+        // if(data){
+        //     dataService.setMasterData(data);
+        // }
+        alert("12334")
     }
 }
 
