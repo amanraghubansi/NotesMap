@@ -7,7 +7,7 @@ class DataService{
 		try{
 			localStorage.setItem(key,JSON.stringify(data));
 		}catch(e){
-			console.log("Op. failed");
+			console.log("Opearation failed");
 		}
 		
 	}
