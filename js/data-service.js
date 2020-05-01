@@ -1,6 +1,13 @@
 class DataService{
 	constructor(){
-		this.masterData={};
+		this.masterData={
+			1 : {
+				text  : "",
+				children :{
+						
+				}			
+			}
+		};
 	}
 
 	saveInLocalStorage(key,data){
