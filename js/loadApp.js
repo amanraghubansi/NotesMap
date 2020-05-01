@@ -1,9 +1,5 @@
-import dataService from "./data-service";
-
-
+import dataService from "./data-service.js";
 class LoadApp{
-	constructor(){
-    }
 
     load(){
         let data=  dataService.fetchFromLocalStorage(dataService.lsKey);
