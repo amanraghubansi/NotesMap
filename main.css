@@ -4,3 +4,19 @@
 body{
 width: 800px;
 }
+
+.note{
+      /* max-width: 500px; */
+      width: 100%;
+      border: 1px solid black;
+      /* height: 100px; */
+      /* margin-bottom: 10px; */
+      position: relative;
+      padding: 10px;
+}
+.subNote{
+  width: 89%;
+    position: relative;
+    top: 100%;
+    left: 8%;
+}
