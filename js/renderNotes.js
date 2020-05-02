@@ -11,8 +11,10 @@ class RenderNotes {
         // console.log(this,this);
         this.parentEl = document.getElementById("parent");
         this.inputEl = document.getElementById("myInput");
+        this.searchEl = document.getElementById("mySearch");
         this.bodyEl = document.getElementsByTagName('body')[0];
         document.getElementById("submitBtn").addEventListener("click", this.addParentNotes.bind(this), false);
+        document.getElementById("serachBtn").addEventListener("click", this.serachNote.bind(this), false);
     }
 
     createNoteSkeleton(id,className,html){
@@ -145,6 +147,10 @@ class RenderNotes {
         panel.appendChild(el);
         panel.appendChild(btn);
         panel.appendChild(cancelBtn);
+    }
+
+    serachNote(){
+
     }
 
     
