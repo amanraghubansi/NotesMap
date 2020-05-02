@@ -129,6 +129,12 @@ class DataService{
 			}
 		}
 	}
+
+	findAndUpdateInMasterData(parentId,text){
+		let dataObj = this.findObjectById(parentId,this.masterData);
+		dataObj.text = text;
+		this.saveInLocalStorage(this.lsKey,this.masterData);
+	}
 }
 
 const dataService= new DataService();

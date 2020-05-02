@@ -25,16 +25,39 @@ class RenderNotes {
         el.id = genId;
         el.classList=className;
         let elp = document.createElement("div");
-        elp.innerHTML = html;
         elp.classList = "note-text";
-        
+        let textNodeVal = document.createElement("span");
+        textNodeVal.innerHTML = html;
+        let editDiv = document.createElement("div");
+        editDiv.classList="noshow edit-note";
+        let inputEl =  document.createElement("input");
+        inputEl.type = 'text';
+        inputEl.classList="form-control";
+        let editBtn = this.createBtn("Save" , "btn  m-r-s btn-primary", "save" , function(e){
+            let parent = e.target.parentElement.parentElement.parentElement;
+            let val = parent.children[0].children[1].children[0].value
+            dataService.findAndUpdateInMasterData(parent.id,val);
+            parent.children[0].children[0].classList="";
+            parent.children[0].children[1].classList="edit-note noshow";
+            parent.children[0].children[0].innerHTML = val;
+        });
+        let cancelBtn = this.createBtn("cancel" , "btn btn-danger", "cancl" , function(e){
+            let parent = e.target.parentElement.parentElement.parentElement;
+            parent.children[0].children[0].classList="";
+            parent.children[0].children[1].classList="edit-note noshow";
+        });
+        editDiv.appendChild(inputEl);
+        editDiv.appendChild(editBtn);
+        editDiv.appendChild(cancelBtn);
+        elp.appendChild(textNodeVal);
+        elp.appendChild(editDiv);
         let noteFooter = document.createElement("div");
         noteFooter.classList = "note-footer";
-        let btn1 = this.createBtn("Add Note" , "add btn btn-primary");
-        let btn2 = this.createBtn("Delete" , "delete btn btn-danger");
-        // let btn3 = this.createBtn("Edit" , "edit btn btn-default" , this.editNoteHandler.bind(this));
+        let btn1 = this.createBtn("Add Note" , "btn btn-primary" , "add");
+        let btn2 = this.createBtn("Delete" , "btn btn-danger" , "del");
+        let btn3 = this.createBtn("Edit" , "btn btn-default" , "edit");
         noteFooter.appendChild(btn1);
-        // noteFooter.appendChild(btn3);
+        noteFooter.appendChild(btn3);
         noteFooter.appendChild(btn2);
 
         let addPlaceholder = document.createElement("div");
@@ -88,10 +111,11 @@ class RenderNotes {
         this.inputEl.value = "";
     }
 
-    createBtn(name , className , fn){
+    createBtn(name , className , id ,fn){
         let btn = document.createElement("button");
         btn.innerHTML = name;
         btn.classList = className;
+        btn.id = id;
         fn ? btn.addEventListener("click" , fn ) : null;
         return btn;
     }
@@ -103,22 +127,27 @@ class RenderNotes {
     }
 
     editNoteHandler(e){
-        // console.log("editNoteHandler");
+        let editDiv = document.getElementById(e.target.parentElement.parentElement.id).querySelector(".edit-note");
+        let noteTextDiv = document.getElementById(e.target.parentElement.parentElement.id).querySelector(".note-text")
+        editDiv.classList = editDiv.className.replace("noshow","");
+        editDiv.children[0].value = noteTextDiv.children[0].innerText;
+        noteTextDiv.children[0].classList="noshow";
     }
+    
     deleteNoteHandler(e){
         dataService.deleteNode(e.target.parentElement.parentElement.id);
     }
 
     inputAndSubmitForchild(parentId, parent,ref){
         let panel = parent.querySelector(".add-actions");
-        let addBtn = parent.querySelector(".btn-primary");
+        let addBtn = parent.querySelector("#add");
         addBtn.classList.add("btn-disabled");
         let el = document.createElement("input");
         el.type ="text";
         el.placeholder = "type sub note"
         el.classList="form-control";
         
-        let btn = this.createBtn("Submit" , "btn btn-primary" , function(e){
+        let btn = this.createBtn("Submit" , "btn btn-primary" , "submit" ,function(e){
             e.stopPropagation();
             let value = el.value;
             if(!value){
@@ -133,7 +162,7 @@ class RenderNotes {
             
         });
 
-        let cancelBtn = this.createBtn("Cancel","btn btn-danger",function(){
+        let cancelBtn = this.createBtn("Cancel","btn btn-danger", "cancel" , function(){
             panel.innerHTML="";
             addBtn.classList.remove("btn-disabled");
         });
@@ -174,10 +203,12 @@ class RenderNotes {
             if(e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-primary")){
                 this.createChildNoteHander(e);
             }else if( e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-danger") ){
-                let delConfirm = confirm("Are you Sure Want to delete Note? \n If any Sub Notes , All will be deleted.");
+                let delConfirm = confirm("Are you Sure Want to delete Notes? \n If any Sub Notes , All will be deleted.");
                 if (delConfirm) {
                     this.deleteNoteHandler(e);
                 }
+            }else if(e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-default")){
+                this.editNoteHandler(e);
             }
         }
     }
@@ -185,7 +216,7 @@ class RenderNotes {
     deleteAllNotes(){
         let data = dataService.getMasterData();
         if(data && Object.keys(data) && Object.keys(data).length){
-            let delConfirm = confirm("Are you Sure Want to delete All Note?");
+            let delConfirm = confirm("Are you Sure to delete every Notes?");
             if (delConfirm) {
                 localStorage.clear();
                 this.clearNotes();
