@@ -73,14 +73,17 @@ class DataService{
 		this.addNoteToMasterData(id,txt);
 	}
 
-	findObjectById(id,data){
+	findObjectById(id,data , action){
 		if(data){
 			let objKeys= Object.keys(data);
 			for (let index = 0; index < objKeys.length; index++) {
 				if(""+id === objKeys[index]){
+					if(action){
+						return delete data[objKeys[index]];
+					}
 					return data[objKeys[index]];
 				}else {
-					let matchedObj = this.findObjectById(id, data[objKeys[index]].children);
+					let matchedObj = this.findObjectById(id, data[objKeys[index]].children , action);
 					if(matchedObj){
 						return matchedObj;
 					}
@@ -91,6 +94,12 @@ class DataService{
 			}
 		}
 
+	}
+
+	deleteNode(id){
+		this.findObjectById(id , this.masterData , "delete");
+		this.saveInLocalStorage(this.lsKey,this.masterData);
+		document.getElementById(id).remove();
 	}
 }
 

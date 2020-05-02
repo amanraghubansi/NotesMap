@@ -101,13 +101,10 @@ class RenderNotes {
 
     editNoteHandler(e){
         console.log("editNoteHandler");
-        console.log(e.target.parentElement.id);
     }
     deleteNoteHandler(e){
         console.log("deleteNoteHandler");
-        console.log(e.target.parentElement.id);
-        
-
+        dataService.deleteNode(e.target.parentElement.parentElement.id);
     }
 
     // addChild(parentId, parent){
@@ -119,7 +116,8 @@ class RenderNotes {
 
     inputAndSubmitForchild(parentId, parent,ref){
         let panel = parent.querySelector(".add-actions");
-
+        let addBtn = parent.querySelector(".btn-primary");
+        addBtn.classList.add("btn-disabled");
         let el = document.createElement("input");
         el.type ="text";
         el.classList="form-control";
@@ -131,7 +129,7 @@ class RenderNotes {
                 return;
             }
             panel.innerHTML="";
-
+            addBtn.classList.remove("btn-disabled");
             let elt = ref.createNoteSkeleton("","note subNote",value);
             parent.appendChild(elt);
             dataService.findNodeAndAddDataToMasterData(parentId,elt.id,elt.children[0].innerText);
@@ -140,6 +138,7 @@ class RenderNotes {
 
         let cancelBtn = this.createBtn("Cancel","btn btn-danger",function(){
             panel.innerHTML="";
+            addBtn.classList.remove("btn-disabled");
         });
         
         panel.appendChild(el);
