@@ -7,6 +7,10 @@ body{
   max-width: 1000px;
 }
 
+.input-container{
+  margin-bottom: 15px;
+}
+
 .note{
       /* max-width: 500px; */
       width: 100%;
@@ -15,6 +19,9 @@ body{
       /* margin-bottom: 10px; */
       position: relative;
       padding: 10px;
+}
+.note-text{
+  margin-bottom: 10px;
 }
 .subNote{
   width: 89%;
@@ -51,6 +58,10 @@ body{
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  outline: 0;
+}
+.btn:focus{
+  outline: 0;
 }
 
 .btn-info {
@@ -98,4 +109,12 @@ body{
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     margin-right: 12px;
+    outline: 0;
+}
+.form-control:focus{
+  outline: 0;
+}
+
+.add-actions{
+  margin-bottom: 10px;
 }
