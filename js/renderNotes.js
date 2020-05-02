@@ -130,8 +130,7 @@ class RenderNotes {
                 alert("Please add note");
                 return;
             }
-            el.remove();
-            btn.remove();
+            panel.innerHTML="";
 
             let elt = ref.createNoteSkeleton("","note subNote",value);
             parent.appendChild(elt);
