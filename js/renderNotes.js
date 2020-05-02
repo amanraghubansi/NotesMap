@@ -120,6 +120,7 @@ class RenderNotes {
         addBtn.classList.add("btn-disabled");
         let el = document.createElement("input");
         el.type ="text";
+        el.placeholder = "type sub note"
         el.classList="form-control";
         
         let btn = this.createBtn("Submit" , "btn btn-primary" , function(){
