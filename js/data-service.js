@@ -8,13 +8,17 @@ class DataService{
 
 	fetchUniqueId(){
 		this.id++;
-		return this.id
+		return this.id;
 	}
 
 	setMasterData(data){
 		if(data){
 			this.masterData=data;
 		}
+	}
+
+	setId(id){
+		this.id =+id;
 	}
 
 	getMasterData(){
@@ -25,6 +29,7 @@ class DataService{
 		if(data){
 			this.masterData[id]=data;
 			this.saveInLocalStorage(this.lsKey,this.masterData);
+			this.saveInLocalStorage("id",this.id);
 		}
 	}
 
@@ -36,6 +41,7 @@ class DataService{
 		let obj={text : text};
 		dataObj.children[elId] = obj;
 		this.saveInLocalStorage(this.lsKey,this.masterData);
+		this.saveInLocalStorage("id",this.id);
 	}
 
 	

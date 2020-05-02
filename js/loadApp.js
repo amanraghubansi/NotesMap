@@ -9,6 +9,8 @@ class LoadApp{
         if(data){
             dataService.setMasterData(data);
         }
+        let idVal=  dataService.fetchFromLocalStorage("id");
+        dataService.setId(idVal);
     }
 }
 

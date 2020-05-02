@@ -34,15 +34,18 @@ class RenderNotes {
         noteFooter.appendChild(btn3);
         noteFooter.appendChild(btn2);
 
+        let addPlaceholder = document.createElement("div");
+        addPlaceholder.classList="add-actions";
+
         el.appendChild(elp);
         el.appendChild(noteFooter);
+        el.appendChild(addPlaceholder);
         return el;
     }
 
     renderOneNode(id,txt,parent){
         let el =this.createNoteSkeleton(id,"note subNote",txt);
         parent.appendChild(el);
-        console.log(parent);
     }
 
     render(data,parentNode) {
@@ -66,8 +69,6 @@ class RenderNotes {
                 }
             }
         })
-        console.log("forEach round completed" , parentNode , data);
-
         
     }
 
@@ -89,10 +90,9 @@ class RenderNotes {
     }
 
     createChildNoteHander(e){
-        console.log("createChildNoteHander");
-        console.log(e.target.parentElement.id);
-        this.addChild(e.target.parentElement.id,document.getElementById(e.target.parentElement.id));
-        this.counter++;
+        let parentId = e.target.parentElement.parentElement.id;
+        let parent = document.getElementById(parentId);
+        this.inputAndSubmitForchild(parentId,parent,this);
     }
 
     editNoteHandler(e){
@@ -106,17 +106,20 @@ class RenderNotes {
 
     }
 
-    addChild(parentId, parent){
-        // let el = this.createNoteSkeleton("","note subNote",val);
-        // parent.appendChild(el);
-        // dataService.findNodeAndAddDataToMasterData(parentId,el.id,el.textContent);
-        this.inputAndSubmitForchild(parentId,parent,this);
-    }
+    // addChild(parentId, parent){
+    //     // let el = this.createNoteSkeleton("","note subNote",val);
+    //     // parent.appendChild(el);
+    //     // dataService.findNodeAndAddDataToMasterData(parentId,el.id,el.textContent);
+    //     this.inputAndSubmitForchild(parentId,parent,this);
+    // }
 
     inputAndSubmitForchild(parentId, parent,ref){
 
         let el = document.createElement("input");
-        let btn = this.createBtn("Submit" , "" , function(){
+        el.type ="text";
+        el.classList="form-control";
+        
+        let btn = this.createBtn("Submit" , "btn btn-primary" , function(){
             // let ParenP = document.getElementById(parentId);
             // let pel = ParenP.getElementsByTagName("p")[0];
             // pel ? pel.remove() : null;
@@ -132,8 +135,9 @@ class RenderNotes {
             dataService.findNodeAndAddDataToMasterData(parentId,elt.id,elt.children[0].innerText);
             
         });
-        parent.appendChild(el);
-        parent.appendChild(btn);
+        let panel = parent.querySelector(".add-actions");
+        panel.appendChild(el);
+        panel.appendChild(btn);
     }
 
     
