@@ -216,7 +216,7 @@ class RenderNotes {
     deleteAllNotes(){
         let data = dataService.getMasterData();
         if(data && Object.keys(data) && Object.keys(data).length){
-            let delConfirm = confirm("Are you Sure to delete every Notes?");
+            let delConfirm = confirm("Are you Sure to delete every Note?");
             if (delConfirm) {
                 localStorage.clear();
                 this.clearNotes();
