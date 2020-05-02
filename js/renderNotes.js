@@ -203,7 +203,7 @@ class RenderNotes {
             if(e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-primary")){
                 this.createChildNoteHander(e);
             }else if( e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-danger") ){
-                let delConfirm = confirm("Are you Sure Want to delete Notes? \n If any Sub Notes , All will be deleted.");
+                let delConfirm = confirm("Are you Sure Want to delete Note? \n If any Sub Notes , will be deleted.");
                 if (delConfirm) {
                     this.deleteNoteHandler(e);
                 }
