@@ -1,0 +1,20 @@
+
+I pickup the assigment and give time to complete it.
+
+Below i mention the features which are implemented in application.
+
+1.) User should able to create the Note for its ref.
+2.) While creating notes its mandatory to fill the value else note will not be created if click on submit button.
+3.) Sub-Notes can be created for the parent Note.
+    For creating subNote input field with two buttons are provided (Submit and Cancel).
+    Without filling the value User can't create subnote.
+4.) If user mistakely click on the Add note he can cancel creation of that note on clicking cancel button.
+5.) During SubNote creation, Parent Add Note btn will be disabled until user not create subnote or cancel it.
+6.) User can delete the sub notes and parent notes.
+7.) During Note delete , One time ask from the User you sure you want to delete the subnote.
+8.) Id user delete parent Note , all its subnotes will be deleted.
+9.) Multiple Parent Level Notes can be created on Top Submit Button. and User can create the SubNotes Too.
+10.) Search provided to search the notes written by user and UI rerender.
+11.) All Notes are stored in Localstorage.
+    On refresh all data is maintained.
+
