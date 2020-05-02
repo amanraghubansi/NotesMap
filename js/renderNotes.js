@@ -11,10 +11,13 @@ class RenderNotes {
         // console.log(this,this);
         this.parentEl = document.getElementById("parent");
         this.inputEl = document.getElementById("myInput");
+        this.submitBtn = document.getElementById("submitBtn");
         this.searchEl = document.getElementById("mySearch");
         this.bodyEl = document.getElementsByTagName('body')[0];
-        document.getElementById("submitBtn").addEventListener("click", this.addParentNotes.bind(this), false);
-        document.getElementById("serachBtn").addEventListener("click", this.serachNote.bind(this), false);
+        this.clearSearchBtn = document.getElementById("clearSearch");
+        this.submitBtn.addEventListener("click", this.addParentNotes.bind(this), false);
+        this.searchEl.addEventListener("keyup", this.searchNotes.bind(this), false);
+        this.clearSearchBtn.addEventListener("click", this.resetSearch.bind(this), false);
     }
 
     createNoteSkeleton(id,className,html){
@@ -30,10 +33,10 @@ class RenderNotes {
         noteFooter.classList = "note-footer";
         let btn1 = this.createBtn("Add Note" , "add btn btn-primary" , this.createChildNoteHander.bind(this));
         let btn2 = this.createBtn("Delete" , "delete btn btn-danger" , this.deleteNoteHandler.bind(this));
-        let btn3 = this.createBtn("Edit" , "edit btn btn-default" , this.editNoteHandler.bind(this));
+        // let btn3 = this.createBtn("Edit" , "edit btn btn-default" , this.editNoteHandler.bind(this));
         // el.appendChild(document.createElement("br"));
         noteFooter.appendChild(btn1);
-        noteFooter.appendChild(btn3);
+        // noteFooter.appendChild(btn3);
         noteFooter.appendChild(btn2);
 
         let addPlaceholder = document.createElement("div");
@@ -60,14 +63,14 @@ class RenderNotes {
                     parentNode.appendChild(el);
                 }else{
                     el.classList = "note";
-                    self.bodyEl.appendChild(el);
+                    self.parentEl.appendChild(el);
                 }
             }else{
                 if(parentNode){
                     self.renderOneNode(idVal,data[idVal].text,parentNode);
                 }else{
                     let el = self.createNoteSkeleton(idVal,"note",data[idVal].text);
-                    self.bodyEl.appendChild(el);
+                    self.parentEl.appendChild(el);
                 }
             }
         })
@@ -81,6 +84,7 @@ class RenderNotes {
             alert("Please add note");
             return;
         }
+        this.resetSearch();
         let el = this.createNoteSkeleton("","note",val);
         this.parentEl.appendChild(el);
         dataService.addNoteToMasterData(el.id,{text : el.children[0].innerText});
@@ -149,9 +153,32 @@ class RenderNotes {
         panel.appendChild(cancelBtn);
     }
 
-    serachNote(){
+    searchNotes(){
+        let value = this.searchEl.value;
+        if(!value){
+            this.resetSearch();
+            return;
+        }
+        this.clearSearchBtn.style.display = "inline-block";
+        
+        dataService.setSearchStatus(true);
+        let data = dataService.getSearchResults(value);
+        this.clearNotes();
+        this.render(data,this.parentEl);
 
     }
+
+    clearNotes(){
+        this.parentEl.innerHTML="";
+    }
+
+    resetSearch(){
+        this.searchEl.value = "";
+        this.clearSearchBtn.style.display = "none";
+        this.clearNotes();
+        this.render(dataService.getMasterData());
+    }
+
 
     
 }

@@ -101,6 +101,34 @@ class DataService{
 		this.saveInLocalStorage(this.lsKey,this.masterData);
 		document.getElementById(id).remove();
 	}
+
+	setSearchStatus(flag){
+		this.searchInProgress = !!flag;
+	}
+	getSearchResults(val){
+		let data = this.getMasterData();	
+		let temp = {};
+		this.filterData(val,temp,data);
+		return temp;
+		
+	}
+
+	filterData(val,res,data){
+		if(data){
+			let objKeys= Object.keys(data);
+			for (let index = 0; index < objKeys.length; index++) {
+				if(data[objKeys[index]].children){
+					this.filterData(val,res, data[objKeys[index]].children);
+					if(data[objKeys[index]].text.indexOf(val) !== -1){
+						res[objKeys[index]] = {text : data[objKeys[index]].text};
+					}
+				}else if(data[objKeys[index]].text.indexOf(val) !== -1){
+					res[objKeys[index]] = {text : data[objKeys[index]].text};
+				}
+				
+			}
+		}
+	}
 }
 
 const dataService= new DataService();

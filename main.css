@@ -2,9 +2,8 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 body{
-  /* width: 800px; */
+  width: 800px;
   font-size: 16px;
-  max-width: 1000px;
 }
 
 .input-container{
@@ -14,28 +13,56 @@ body{
 .note{
       /* max-width: 500px; */
       width: 100%;
-      border: 1px solid black;
+      /* border: 1px solid black; */
       /* height: 100px; */
       /* margin-bottom: 10px; */
       position: relative;
-      padding: 10px;
+      /* padding-bottom: 10px; */
+      border-top: 1px solid;
 }
+
 .note-text{
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  padding: 10px;
 }
+
 .subNote{
-  width: 89%;
-    position: relative;
-    top: 100%;
-    left: 8%;
+  width: 100%;
+  position: relative;
+  top: 100%;
+  left: 8%;
+  border-left: 0 none !important;
 }
+
+
+.note>div {
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+.note>div.subNote{
+  border-left : 0 none;
+  border-right : 0 none;
+}
+
 .note-footer {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  padding: 0 10px;
+  /* border-bottom: 1px solid; */
 }
 
 .note-footer .btn,.add-actions .btn{
   margin-right: 15px;
 }
+
+.add-actions{
+  border-bottom: 1px solid;
+  padding: 0 10px;
+}
+
+.add-actions .btn, .add-actions input {
+  margin-top: 10px;
+}
+
 
 
 .btn {
@@ -62,6 +89,11 @@ body{
 }
 .btn:focus{
   outline: 0;
+}
+
+.btn-disabled{
+  opacity: 0.65;
+  pointer-events: none;
 }
 
 .btn-info {
@@ -114,7 +146,9 @@ body{
 .form-control:focus{
   outline: 0;
 }
-
-.add-actions{
-  margin-bottom: 10px;
+.noshow{
+  display: none;
 }
+
+
+
