@@ -15,29 +15,27 @@ class RenderNotes {
         document.getElementById("submitBtn").addEventListener("click", this.addParentNotes.bind(this), false);
     }
 
-    createNoteDiv(id,className,html){
-        let el = document.createElement("div");
-        el.id = id;
-        el.classList = className;
-        el.innerHTML= html;
-        return el;
-    }
-
     createNoteSkeleton(id,className,html){
         let el = document.createElement("div");
         let genId = id || dataService.fetchUniqueId();
         el.id = genId;
-        let elp = document.createElement("span");
-        elp.innerHTML = html;
-        el.appendChild(elp);
         el.classList=className;
-        let btn1 = this.createBtn("Add Note" , "add" , this.createChildNoteHander.bind(this));
-        let btn2 = this.createBtn("Delete" , "delete" , this.btnDelClicked.bind(this));
-        let btn3 = this.createBtn("Edit" , "edit" , this.btnEditClicked.bind(this));
-        el.appendChild(document.createElement("br"));
-        el.appendChild(btn1);
-        el.appendChild(btn2);
-        el.appendChild(btn3);
+        let elp = document.createElement("div");
+        elp.innerHTML = html;
+        elp.classList = "note-text";
+        
+        let noteFooter = document.createElement("div");
+        noteFooter.classList = "note-footer";
+        let btn1 = this.createBtn("Add Note" , "add btn btn-primary" , this.createChildNoteHander.bind(this));
+        let btn2 = this.createBtn("Delete" , "delete btn btn-danger" , this.deleteNoteHandler.bind(this));
+        let btn3 = this.createBtn("Edit" , "edit btn btn-default" , this.editNoteHandler.bind(this));
+        // el.appendChild(document.createElement("br"));
+        noteFooter.appendChild(btn1);
+        noteFooter.appendChild(btn3);
+        noteFooter.appendChild(btn2);
+
+        el.appendChild(elp);
+        el.appendChild(noteFooter);
         return el;
     }
 
@@ -82,13 +80,6 @@ class RenderNotes {
         this.inputEl.value = "";
     }
 
-    // createNote(val,parent) {
-    //     let el = this.createNoteSkeleton("","note",val);
-    //     parent.appendChild(el);
-    //     dataService.addNoteToMasterData(el.id,{txt : el.textContent});
-        
-    // }
-
     createBtn(name , className , fn){
         let btn = document.createElement("button");
         btn.innerHTML = name;
@@ -97,27 +88,25 @@ class RenderNotes {
         return btn;
     }
 
-    counter = 1;
-    value = this.counter + "val"; 
     createChildNoteHander(e){
         console.log("createChildNoteHander");
         console.log(e.target.parentElement.id);
-        this.addChild(e.target.parentElement.id,document.getElementById(e.target.parentElement.id),+this.counter+this.value);
+        this.addChild(e.target.parentElement.id,document.getElementById(e.target.parentElement.id));
         this.counter++;
     }
 
-    btnEditClicked(e){
-        console.log("btnEditClicked");
+    editNoteHandler(e){
+        console.log("editNoteHandler");
         console.log(e.target.parentElement.id);
     }
-    btnDelClicked(e){
-        console.log("btnDelClicked");
+    deleteNoteHandler(e){
+        console.log("deleteNoteHandler");
         console.log(e.target.parentElement.id);
         
 
     }
 
-    addChild(parentId, parent,val){
+    addChild(parentId, parent){
         // let el = this.createNoteSkeleton("","note subNote",val);
         // parent.appendChild(el);
         // dataService.findNodeAndAddDataToMasterData(parentId,el.id,el.textContent);
