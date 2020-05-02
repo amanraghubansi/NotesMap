@@ -18,6 +18,7 @@ class RenderNotes {
         this.submitBtn.addEventListener("click", this.addParentNotes.bind(this), false);
         this.searchEl.addEventListener("keyup", this.searchNotes.bind(this), false);
         this.clearSearchBtn.addEventListener("click", this.resetSearch.bind(this), false);
+        this.parentEl.addEventListener("click" , this.parentEvent.bind(this), false);
     }
 
     createNoteSkeleton(id,className,html){
@@ -31,8 +32,8 @@ class RenderNotes {
         
         let noteFooter = document.createElement("div");
         noteFooter.classList = "note-footer";
-        let btn1 = this.createBtn("Add Note" , "add btn btn-primary" , this.createChildNoteHander.bind(this));
-        let btn2 = this.createBtn("Delete" , "delete btn btn-danger" , this.deleteNoteHandler.bind(this));
+        let btn1 = this.createBtn("Add Note" , "add btn btn-primary");
+        let btn2 = this.createBtn("Delete" , "delete btn btn-danger");
         // let btn3 = this.createBtn("Edit" , "edit btn btn-default" , this.editNoteHandler.bind(this));
         // el.appendChild(document.createElement("br"));
         noteFooter.appendChild(btn1);
@@ -95,7 +96,7 @@ class RenderNotes {
         let btn = document.createElement("button");
         btn.innerHTML = name;
         btn.classList = className;
-        btn.addEventListener("click" , fn );
+        fn ? btn.addEventListener("click" , fn ) : null;
         return btn;
     }
 
@@ -129,7 +130,8 @@ class RenderNotes {
         el.placeholder = "type sub note"
         el.classList="form-control";
         
-        let btn = this.createBtn("Submit" , "btn btn-primary" , function(){
+        let btn = this.createBtn("Submit" , "btn btn-primary" , function(e){
+            e.stopPropagation();
             let value = el.value;
             if(!value){
                 alert("Please add note");
@@ -179,6 +181,15 @@ class RenderNotes {
         this.render(dataService.getMasterData());
     }
 
+    parentEvent(e){
+        if(e && e.target && e.target.parentElement && e.target.parentElement.parentElement && e.target.parentElement.parentElement.id){
+            if(e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-primary")){
+                this.createChildNoteHander(e);
+            }else if( e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-danger") ){
+                this.deleteNoteHandler(e);
+            }
+        }
+    }
 
     
 }
