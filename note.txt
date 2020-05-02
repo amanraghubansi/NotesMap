@@ -17,4 +17,6 @@ Below i mention the features which are implemented in application.
 10.) Search provided to search the notes written by user and UI rerender.
 11.) All Notes are stored in Localstorage.
     On refresh all data is maintained.
+12.) For User convernience Delete All notes button is provided to delete all notes in one click with confirmation.
 
+To run the code read the Readme.MD and follow the steps.

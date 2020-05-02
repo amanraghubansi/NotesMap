@@ -2,23 +2,21 @@ import dataService from "./data-service.js";
 
 class RenderNotes {
     constructor(){
-        // console.log(this);
-        // var this = this;
     }
 
-
     initRender(){
-        // console.log(this,this);
         this.parentEl = document.getElementById("parent");
         this.inputEl = document.getElementById("myInput");
         this.submitBtn = document.getElementById("submitBtn");
         this.searchEl = document.getElementById("mySearch");
         this.bodyEl = document.getElementsByTagName('body')[0];
         this.clearSearchBtn = document.getElementById("clearSearch");
+        this.delAllBtn = document.getElementById("delAll");
         this.submitBtn.addEventListener("click", this.addParentNotes.bind(this), false);
         this.searchEl.addEventListener("keyup", this.searchNotes.bind(this), false);
         this.clearSearchBtn.addEventListener("click", this.resetSearch.bind(this), false);
         this.parentEl.addEventListener("click" , this.parentEvent.bind(this), false);
+        this.delAllBtn.addEventListener("click" , this.deleteAllNotes.bind(this),false);
     }
 
     createNoteSkeleton(id,className,html){
@@ -35,7 +33,6 @@ class RenderNotes {
         let btn1 = this.createBtn("Add Note" , "add btn btn-primary");
         let btn2 = this.createBtn("Delete" , "delete btn btn-danger");
         // let btn3 = this.createBtn("Edit" , "edit btn btn-default" , this.editNoteHandler.bind(this));
-        // el.appendChild(document.createElement("br"));
         noteFooter.appendChild(btn1);
         // noteFooter.appendChild(btn3);
         noteFooter.appendChild(btn2);
@@ -79,7 +76,6 @@ class RenderNotes {
     }
 
     addParentNotes() {
-        // this.createNote(this.inputEl.value,this.parentEl);
         let val =this.inputEl.value;
         if(!val){
             alert("Please add note");
@@ -107,19 +103,11 @@ class RenderNotes {
     }
 
     editNoteHandler(e){
-        console.log("editNoteHandler");
+        // console.log("editNoteHandler");
     }
     deleteNoteHandler(e){
-        console.log("deleteNoteHandler");
         dataService.deleteNode(e.target.parentElement.parentElement.id);
     }
-
-    // addChild(parentId, parent){
-    //     // let el = this.createNoteSkeleton("","note subNote",val);
-    //     // parent.appendChild(el);
-    //     // dataService.findNodeAndAddDataToMasterData(parentId,el.id,el.textContent);
-    //     this.inputAndSubmitForchild(parentId,parent,this);
-    // }
 
     inputAndSubmitForchild(parentId, parent,ref){
         let panel = parent.querySelector(".add-actions");
@@ -186,10 +174,23 @@ class RenderNotes {
             if(e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-primary")){
                 this.createChildNoteHander(e);
             }else if( e.target.nodeName == "BUTTON" && e.target.classList && e.target.classList.contains("btn-danger") ){
-                let delPrompt = prompt("Are you Sure Want to delete Note?", "If any Sub Notes , All will be deleted");
-                if (delPrompt != null) {
+                let delConfirm = confirm("Are you Sure Want to delete Note? \n If any Sub Notes , All will be deleted.");
+                if (delConfirm) {
                     this.deleteNoteHandler(e);
                 }
+            }
+        }
+    }
+
+    deleteAllNotes(){
+        let data = dataService.getMasterData();
+        if(data && Object.keys(data) && Object.keys(data).length){
+            let delConfirm = confirm("Are you Sure Want to delete All Note?");
+            if (delConfirm) {
+                localStorage.clear();
+                this.clearNotes();
+                dataService.setMasterData({});
+                dataService.setId(0);
             }
         }
     }
