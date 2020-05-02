@@ -75,6 +75,10 @@ class RenderNotes {
     addParentNotes() {
         // this.createNote(this.inputEl.value,this.parentEl);
         let val =this.inputEl.value;
+        if(!val){
+            alert("Please add note");
+            return;
+        }
         let el = this.createNoteSkeleton("","note",val);
         this.parentEl.appendChild(el);
         dataService.addNoteToMasterData(el.id,{text : el.children[0].innerText});
@@ -114,19 +118,18 @@ class RenderNotes {
     // }
 
     inputAndSubmitForchild(parentId, parent,ref){
+        let panel = parent.querySelector(".add-actions");
 
         let el = document.createElement("input");
         el.type ="text";
         el.classList="form-control";
         
         let btn = this.createBtn("Submit" , "btn btn-primary" , function(){
-            // let ParenP = document.getElementById(parentId);
-            // let pel = ParenP.getElementsByTagName("p")[0];
-            // pel ? pel.remove() : null;
-            let elp = document.createElement("p");
-            elp.innerHTML = el.value;
             let value = el.value;
-            // parent.appendChild(elp);
+            if(!value){
+                alert("Please add note");
+                return;
+            }
             el.remove();
             btn.remove();
 
@@ -135,9 +138,14 @@ class RenderNotes {
             dataService.findNodeAndAddDataToMasterData(parentId,elt.id,elt.children[0].innerText);
             
         });
-        let panel = parent.querySelector(".add-actions");
+
+        let cancelBtn = this.createBtn("Cancel","btn btn-danger",function(){
+            panel.innerHTML="";
+        });
+        
         panel.appendChild(el);
         panel.appendChild(btn);
+        panel.appendChild(cancelBtn);
     }
 
     

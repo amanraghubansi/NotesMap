@@ -33,7 +33,7 @@ body{
   margin-bottom: 10px;
 }
 
-.note-footer .btn{
+.note-footer .btn,.add-actions .btn{
   margin-right: 15px;
 }
 
